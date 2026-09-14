@@ -1,0 +1,13 @@
+{
+  "name": "jigsaw-puzzle-game",
+  "version": "1.0.0",
+  "description": "A modern, responsive, high-aesthetic Jigsaw Puzzle game in HTML5, CSS3, and JavaScript",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["jigsaw", "puzzle", "html5", "canvas", "game"],
+  "author": "",
+  "license": "MIT"
+}

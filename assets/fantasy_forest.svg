@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="forestSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#051923" />
+      <stop offset="40%" stop-color="#003554" />
+      <stop offset="80%" stop-color="#006466" />
+      <stop offset="100%" stop-color="#065a60" />
+    </linearGradient>
+    <linearGradient id="magicStream" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#00ffff" stop-opacity="0.3" />
+      <stop offset="50%" stop-color="#64dfdf" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#48cae4" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="crystalGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7209b7" />
+      <stop offset="50%" stop-color="#4cc9f0" />
+      <stop offset="100%" stop-color="#f72585" />
+    </linearGradient>
+    <filter id="fairyGlow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky & Ambient Backlight -->
+  <rect width="1200" height="800" fill="url(#forestSky)" />
+
+  <!-- Giant Moon glowing through canopy -->
+  <circle cx="600" cy="180" r="130" fill="#e0fbfc" opacity="0.9" filter="url(#fairyGlow)" />
+  <circle cx="600" cy="180" r="100" fill="#ffffff" />
+
+  <!-- Mystical Fog / Mist Layers -->
+  <ellipse cx="600" cy="400" rx="600" ry="120" fill="#00ffff" opacity="0.12" filter="url(#fairyGlow)" />
+  <ellipse cx="400" cy="520" rx="500" ry="90" fill="#72efdd" opacity="0.1" filter="url(#fairyGlow)" />
+
+  <!-- Background Trees Silhouette -->
+  <g fill="#021c1e" opacity="0.6">
+    <path d="M 120 450 L 170 200 L 220 450 Z" />
+    <path d="M 280 470 L 320 220 L 360 470 Z" />
+    <path d="M 780 460 L 830 180 L 880 460 Z" />
+    <path d="M 980 480 L 1020 230 L 1060 480 Z" />
+  </g>
+
+  <!-- Mystical Winding Crystal River -->
+  <path d="M 590 350 C 580 420, 680 470, 620 540 C 550 620, 380 640, 480 800 L 720 800 C 660 670, 780 580, 720 470 C 660 410, 610 370, 610 350 Z" fill="url(#magicStream)" filter="url(#fairyGlow)" />
+
+  <!-- River Sparkle highlights -->
+  <g fill="#ffffff" opacity="0.8">
+    <circle cx="605" cy="430" r="2.5" /><circle cx="640" cy="480" r="3" />
+    <circle cx="580" cy="560" r="3.5" /><circle cx="510" cy="670" r="4" />
+    <circle cx="600" cy="720" r="4.5" />
+  </g>
+
+  <!-- Giant Ancient Gnarled Tree on Left -->
+  <g fill="#0b131f">
+    <!-- Trunk and Roots -->
+    <path d="M -50 800 Q 150 720 180 520 Q 220 320 80 100 Q 180 260 260 480 Q 320 680 420 800 Z" />
+    <!-- Overarching Branches -->
+    <path d="M 180 380 Q 320 250 520 220 Q 340 280 200 420 Z" />
+    <path d="M 150 260 Q 300 130 500 100 Q 320 160 140 300 Z" />
+  </g>
+
+  <!-- Giant Ancient Gnarled Tree on Right -->
+  <g fill="#0b131f">
+    <path d="M 1250 800 Q 1050 710 1020 510 Q 980 320 1100 80 Q 1020 250 940 470 Q 880 680 780 800 Z" />
+    <path d="M 1020 370 Q 880 240 680 210 Q 860 270 1000 410 Z" />
+  </g>
+
+  <!-- Glowing Bioluminescent Mushrooms on Forest Floor -->
+  <!-- Mushroom Group Left -->
+  <g transform="translate(240, 660)">
+    <!-- Big Mushroom -->
+    <path d="M -8 20 Q -4 -30 0 -50 Q 4 -30 8 20 Z" fill="#e0aaff" />
+    <!-- Cap -->
+    <path d="M -45 -45 C -45 -85, 45 -85, 45 -45 Q 0 -35 -45 -45 Z" fill="#f72585" filter="url(#fairyGlow)" />
+    <!-- Cap Dots -->
+    <circle cx="-20" cy="-60" r="4" fill="#ffffff" /><circle cx="0" cy="-70" r="5" fill="#ffffff" /><circle cx="20" cy="-58" r="4" fill="#ffffff" />
+    <!-- Spores falling -->
+    <circle cx="0" cy="-25" r="2.5" fill="#f72585" opacity="0.8" filter="url(#fairyGlow)" />
+    <!-- Little Mushroom next to it -->
+    <path d="M 30 20 Q 32 -10 35 -25 Q 38 -10 40 20 Z" fill="#c77dff" />
+    <path d="M 15 -22 C 15 -45, 55 -45, 55 -22 Z" fill="#4cc9f0" filter="url(#fairyGlow)" />
+  </g>
+
+  <!-- Mushroom Group Right -->
+  <g transform="translate(860, 680)">
+    <path d="M -6 20 Q -3 -25 0 -40 Q 3 -25 6 20 Z" fill="#e0aaff" />
+    <path d="M -38 -36 C -38 -72, 38 -72, 38 -36 Q 0 -28 -38 -36 Z" fill="#4895ef" filter="url(#fairyGlow)" />
+    <circle cx="-15" cy="-50" r="3.5" fill="#ffffff" /><circle cx="5" cy="-58" r="4" fill="#ffffff" /><circle cx="20" cy="-48" r="3" fill="#ffffff" />
+  </g>
+
+  <!-- Giant Mystical Floating Crystals in Midground -->
+  <g transform="translate(620, 310)" filter="url(#fairyGlow)">
+    <polygon points="0,-45 22,-5 0,35 -22,-5" fill="url(#crystalGlow)" opacity="0.9" />
+    <polygon points="0,-45 22,-5 0,35" fill="#ffffff" opacity="0.4" />
+    <ellipse cx="0" cy="55" rx="25" ry="6" fill="#4cc9f0" opacity="0.4" />
+  </g>
+
+  <!-- Swarm of Glowing Bioluminescent Fireflies / Fairies -->
+  <g fill="#ffd166" filter="url(#fairyGlow)">
+    <circle cx="150" cy="480" r="4" /><circle cx="220" cy="380" r="5" /><circle cx="340" cy="450" r="4.5" />
+    <circle cx="430" cy="390" r="5.5" /><circle cx="520" cy="460" r="4" /><circle cx="680" cy="410" r="5" />
+    <circle cx="760" cy="360" r="4" /><circle cx="820" cy="470" r="5.5" /><circle cx="930" cy="420" r="4.5" />
+    <circle cx="1020" cy="490" r="4" /><circle cx="310" cy="580" r="4.5" /><circle cx="700" cy="620" r="5" />
+    <circle cx="880" cy="590" r="4" /><circle cx="480" cy="300" r="3.5" /><circle cx="650" cy="270" r="4" />
+  </g>
+  <g fill="#06d6a0" filter="url(#fairyGlow)" opacity="0.8">
+    <circle cx="180" cy="530" r="3.5" /><circle cx="390" cy="520" r="4" /><circle cx="790" cy="520" r="4" />
+    <circle cx="960" cy="560" r="3.5" /><circle cx="550" cy="610" r="4" />
+  </g>
+
+  <!-- Foreground Silhouetted Ferns and Foliage -->
+  <g fill="#050a10">
+    <path d="M 0 800 Q 80 680 140 670 Q 110 730 60 800 Z" />
+    <path d="M 50 800 Q 160 700 240 710 Q 180 760 120 800 Z" />
+    <path d="M 1200 800 Q 1120 670 1050 660 Q 1090 730 1140 800 Z" />
+    <path d="M 1150 800 Q 1040 690 960 700 Q 1020 750 1080 800 Z" />
+  </g>
+</svg>

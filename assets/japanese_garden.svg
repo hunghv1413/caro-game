@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1145" />
+      <stop offset="35%" stop-color="#541a5f" />
+      <stop offset="65%" stop-color="#d13b53" />
+      <stop offset="85%" stop-color="#f88f4b" />
+      <stop offset="100%" stop-color="#fed679" />
+    </linearGradient>
+    <linearGradient id="fujiGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="20%" stop-color="#f5d6ce" />
+      <stop offset="45%" stop-color="#5b4878" />
+      <stop offset="100%" stop-color="#231b3e" />
+    </linearGradient>
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3d1b46" />
+      <stop offset="40%" stop-color="#1b2847" />
+      <stop offset="100%" stop-color="#0b172a" />
+    </linearGradient>
+    <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="40%" stop-color="#ff9a52" stop-opacity="0.9" />
+      <stop offset="80%" stop-color="#e93b66" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#e93b66" stop-opacity="0" />
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1200" height="800" fill="url(#skyGrad)" />
+
+  <!-- Stars -->
+  <g fill="#ffffff" opacity="0.6">
+    <circle cx="100" cy="50" r="1.5" /><circle cx="250" cy="80" r="1" /><circle cx="380" cy="40" r="2" />
+    <circle cx="500" cy="90" r="1.2" /><circle cx="720" cy="60" r="1.5" /><circle cx="850" cy="30" r="2" />
+    <circle cx="980" cy="70" r="1" /><circle cx="1100" cy="45" r="1.8" /><circle cx="150" cy="120" r="1" />
+    <circle cx="620" cy="110" r="1.5" /><circle cx="1050" cy="130" r="1.2" />
+  </g>
+
+  <!-- Glowing Giant Sun -->
+  <circle cx="700" cy="360" r="160" fill="url(#sunGrad)" />
+  <circle cx="700" cy="360" r="85" fill="#fff4e0" />
+
+  <!-- Mount Fuji -->
+  <path d="M 380 480 Q 560 380 620 230 Q 640 215 670 215 Q 700 215 720 230 Q 780 380 960 480 Z" fill="url(#fujiGrad)" />
+  <!-- Fuji Snow Crest Highlights -->
+  <path d="M 620 230 Q 640 215 670 215 Q 700 215 720 230 L 735 285 L 710 270 L 685 310 L 665 275 L 645 300 L 625 270 Z" fill="#ffffff" opacity="0.9" />
+
+  <!-- Distant Mountain Ranges -->
+  <path d="M 0 520 Q 200 460 450 500 Q 700 470 950 510 L 1200 490 L 1200 580 L 0 580 Z" fill="#2d173c" opacity="0.7" />
+  <path d="M 0 545 Q 300 510 600 535 Q 900 515 1200 540 L 1200 620 L 0 620 Z" fill="#1b122e" />
+
+  <!-- Lake / Water -->
+  <rect y="540" width="1200" height="260" fill="url(#waterGrad)" />
+
+  <!-- Sun Reflection on Water -->
+  <ellipse cx="700" cy="580" rx="90" ry="12" fill="#ff9a52" opacity="0.4" />
+  <ellipse cx="700" cy="620" rx="140" ry="8" fill="#ff7043" opacity="0.3" />
+  <ellipse cx="700" cy="670" rx="190" ry="6" fill="#f44336" opacity="0.2" />
+
+  <!-- Traditional Pagoda Silhouette on Cliff -->
+  <g transform="translate(140, 310)" fill="#130b21">
+    <!-- Base Cliff -->
+    <path d="M -80 230 Q 0 180 120 200 Q 180 210 220 250 L -80 250 Z" fill="#0d0717"/>
+    <!-- Pagoda Tiers -->
+    <!-- Tier 3 (Top) -->
+    <rect x="42" y="110" width="16" height="25" />
+    <path d="M 20 115 Q 50 95 80 115 L 70 120 L 30 120 Z" />
+    <line x1="50" y1="95" x2="50" y2="70" stroke="#130b21" stroke-width="3" />
+    <circle cx="50" cy="68" r="4" />
+    <!-- Tier 2 -->
+    <rect x="36" y="135" width="28" height="25" />
+    <path d="M 10 140 Q 50 118 90 140 L 80 146 L 20 146 Z" />
+    <!-- Tier 1 (Bottom) -->
+    <rect x="30" y="160" width="40" height="35" />
+    <path d="M 0 165 Q 50 140 100 165 L 90 172 L 10 172 Z" />
+    <!-- Pillars & Fence -->
+    <rect x="25" y="195" width="50" height="15" fill="#130b21" />
+  </g>
+
+  <!-- Red Torii Gate on Water -->
+  <g transform="translate(850, 470)">
+    <!-- Gate Pillars -->
+    <rect x="40" y="40" width="14" height="120" rx="3" fill="#d32f2f" />
+    <rect x="120" y="40" width="14" height="120" rx="3" fill="#d32f2f" />
+    <!-- Main Top Beam (Curved) -->
+    <path d="M 20 42 Q 87 25 154 42 L 150 55 Q 87 40 24 55 Z" fill="#b71c1c" />
+    <path d="M 15 35 Q 87 18 160 35 L 157 42 Q 87 25 18 42 Z" fill="#212121" />
+    <!-- Second Crossbeam -->
+    <rect x="30" y="65" width="114" height="11" fill="#c62828" />
+    <!-- Center Tablet -->
+    <rect x="80" y="45" width="14" height="22" fill="#212121" />
+    <!-- Pillar Bases -->
+    <rect x="35" y="150" width="24" height="16" rx="2" fill="#263238" />
+    <rect x="115" y="150" width="24" height="16" rx="2" fill="#263238" />
+    <!-- Torii Water Ripple -->
+    <ellipse cx="47" cy="164" rx="28" ry="4" fill="#ff7043" opacity="0.3" />
+    <ellipse cx="127" cy="164" rx="28" ry="4" fill="#ff7043" opacity="0.3" />
+  </g>
+
+  <!-- Cherry Blossom (Sakura) Branches Frame -->
+  <g id="sakura">
+    <!-- Tree Trunk & Branch Left -->
+    <path d="M -30 0 C 80 120, 120 280, 70 500 C 60 400, 160 250, 320 210 C 240 230, 200 170, 190 90 Z" fill="#1b0e1e" />
+    <path d="M 160 250 Q 280 260 380 200 Q 290 220 210 215 Z" fill="#1b0e1e" />
+    <path d="M 320 210 Q 420 180 520 220 Q 440 190 340 195 Z" fill="#1b0e1e" />
+    <!-- Blossom Clusters (Glow Soft Pink) -->
+    <g fill="#ff80ab" opacity="0.95" filter="url(#glow)">
+      <!-- Left cluster -->
+      <circle cx="120" cy="90" r="14" /><circle cx="138" cy="80" r="16" /><circle cx="155" cy="100" r="15" /><circle cx="130" cy="115" r="18" />
+      <circle cx="210" cy="120" r="16" /><circle cx="230" cy="105" r="18" /><circle cx="250" cy="130" r="15" />
+      <!-- Mid branches -->
+      <circle cx="280" cy="190" r="18" /><circle cx="310" cy="175" r="20" /><circle cx="335" cy="195" r="17" />
+      <circle cx="380" cy="175" r="18" /><circle cx="410" cy="165" r="19" /><circle cx="435" cy="185" r="16" />
+      <circle cx="480" cy="205" r="17" /><circle cx="515" cy="195" r="19" /><circle cx="535" cy="220" r="14" />
+      <!-- Small Blossom Highlights -->
+      <g fill="#ffffff" opacity="0.8">
+        <circle cx="138" cy="80" r="6" /><circle cx="230" cy="105" r="7" />
+        <circle cx="310" cy="175" r="7" /><circle cx="410" cy="165" r="7" /><circle cx="515" cy="195" r="6" />
+      </g>
+    </g>
+
+    <!-- Falling Petals -->
+    <g fill="#ff4081" opacity="0.8">
+      <ellipse cx="250" cy="340" rx="8" ry="4" transform="rotate(25 250 340)" />
+      <ellipse cx="380" cy="420" rx="9" ry="5" transform="rotate(-35 380 420)" />
+      <ellipse cx="490" cy="350" rx="7" ry="4" transform="rotate(45 490 350)" />
+      <ellipse cx="610" cy="480" rx="8" ry="4" transform="rotate(15 610 480)" />
+      <ellipse cx="760" cy="530" rx="7" ry="3.5" transform="rotate(-20 760 530)" />
+      <ellipse cx="890" cy="610" rx="8" ry="4" transform="rotate(50 890 610)" />
+      <ellipse cx="420" cy="650" rx="9" ry="4.5" transform="rotate(-15 420 650)" />
+    </g>
+  </g>
+
+  <!-- Glowing Water Lanterns / Lotus in Foreground -->
+  <g transform="translate(300, 680)">
+    <ellipse cx="0" cy="0" rx="35" ry="14" fill="#0b2420" />
+    <path d="M -20 -5 C -10 -25, 0 -35, 0 -35 C 0 -35, 10 -25, 20 -5 Z" fill="#ff4081" opacity="0.9" filter="url(#glow)"/>
+    <circle cx="0" cy="-12" r="7" fill="#fff59d" filter="url(#glow)" />
+    <ellipse cx="0" cy="15" rx="45" ry="8" fill="#ffd54f" opacity="0.3" />
+  </g>
+  <g transform="translate(980, 720)">
+    <ellipse cx="0" cy="0" rx="45" ry="18" fill="#0b2420" />
+    <path d="M -24 -6 C -12 -30, 0 -42, 0 -42 C 0 -42, 12 -30, 24 -6 Z" fill="#ff80ab" opacity="0.95" filter="url(#glow)"/>
+    <circle cx="0" cy="-15" r="9" fill="#fff59d" filter="url(#glow)" />
+    <ellipse cx="0" cy="18" rx="60" ry="10" fill="#ffd54f" opacity="0.35" />
+  </g>
+</svg>
