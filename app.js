@@ -325,7 +325,10 @@
         tabAllPieces: document.getElementById('tabAllPieces'),
         tabEdgePieces: document.getElementById('tabEdgePieces'),
         tabInnerPieces: document.getElementById('tabInnerPieces'),
-        dragLayer: document.getElementById('dragLayer')
+        dragLayer: document.getElementById('dragLayer'),
+        saveGameBtn: document.getElementById('saveGameBtn'),
+        loadGameBtn: document.getElementById('loadGameBtn'),
+        toastContainer: document.getElementById('toastContainer')
       };
 
       // Sound & Confetti
@@ -339,6 +342,7 @@
 
       this.initEvents();
       this.loadImage(this.currentImageSrc);
+      this.updateSaveLoadButtonState();
     }
 
     initEvents() {
@@ -455,12 +459,42 @@
         this.restartGame();
       });
 
+      // Save/Load Buttons
+      this.dom.saveGameBtn.addEventListener('click', () => this.saveGame());
+      this.dom.loadGameBtn.addEventListener('click', () => this.loadGame());
+
       // Responsive Board Resize Handler
       window.addEventListener('resize', () => {
         this.updateBoardDimensions();
         this.renderGhostAndGrid();
         this.renderSnappedPieces();
       });
+    }
+
+    // --- Toast Notification System ---
+    showToast(message, type = 'info', durationMs = 3000) {
+      const iconMap = {
+        success: '✅',
+        info: 'ℹ️',
+        warning: '⚠️',
+        error: '❌'
+      };
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `<span class="toast-icon">${iconMap[type] || iconMap.info}</span><span>${message}</span>`;
+      this.dom.toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('removing');
+        setTimeout(() => toast.remove(), 350);
+      }, durationMs);
+    }
+
+    // --- Save/Load Button State ---
+    updateSaveLoadButtonState() {
+      const hasSave = !!localStorage.getItem('jigsaw_save');
+      this.dom.saveGameBtn.classList.toggle('has-save', hasSave);
+      this.dom.loadGameBtn.classList.toggle('has-save', hasSave);
     }
 
     setTrayFilter(filter) {
@@ -1188,10 +1222,217 @@
         this.dom.victoryModal.style.display = 'flex';
       }, 400);
     }
+
+    // --- Save Game State ---
+    saveGame() {
+      if (!this.isGameActive && this.snappedCount !== this.totalPieces) {
+        this.showToast('Không có game nào đang chơi để lưu!', 'warning');
+        return;
+      }
+      if (this.snappedCount === this.totalPieces) {
+        this.showToast('Game đã hoàn thành, không cần lưu!', 'info');
+        return;
+      }
+
+      try {
+        const piecesState = this.pieces.map((p) => {
+          let location = 'tray';
+          let posLeft = '0px';
+          let posTop = '0px';
+          if (p.isSnapped) {
+            location = 'snapped';
+          } else if (p.element.parentElement === this.dom.boardPiecesLayer) {
+            location = 'board';
+            posLeft = p.element.style.left;
+            posTop = p.element.style.top;
+          } else {
+            location = 'tray';
+            posLeft = p.element.style.left;
+            posTop = p.element.style.top;
+          }
+
+          return {
+            id: p.id,
+            row: p.row,
+            col: p.col,
+            isEdge: p.isEdge,
+            edges: p.edges,
+            isSnapped: p.isSnapped,
+            rotation: p.rotation,
+            location: location,
+            posLeft: posLeft,
+            posTop: posTop
+          };
+        });
+
+        const saveData = {
+          version: 1,
+          timestamp: Date.now(),
+          gridSize: this.gridSize,
+          currentImageSrc: this.currentImageSrc,
+          secondsElapsed: this.secondsElapsed,
+          movesCount: this.movesCount,
+          snappedCount: this.snappedCount,
+          totalPieces: this.totalPieces,
+          rotationEnabled: this.rotationEnabled,
+          ghostEnabled: this.ghostEnabled,
+          pieces: piecesState
+        };
+
+        localStorage.setItem('jigsaw_save', JSON.stringify(saveData));
+        this.updateSaveLoadButtonState();
+        this.showToast(`Game đã lưu! (${this.snappedCount}/${this.totalPieces} mảnh, ${this.formatTime(this.secondsElapsed)})`, 'success');
+      } catch (e) {
+        console.error('Save game error:', e);
+        this.showToast('Lỗi khi lưu game!', 'error');
+      }
+    }
+
+    // --- Load Game State ---
+    loadGame() {
+      const raw = localStorage.getItem('jigsaw_save');
+      if (!raw) {
+        this.showToast('Chưa có game nào được lưu!', 'warning');
+        return;
+      }
+
+      let saveData;
+      try {
+        saveData = JSON.parse(raw);
+      } catch (e) {
+        this.showToast('Dữ liệu lưu bị hỏng!', 'error');
+        return;
+      }
+
+      if (!saveData.version || !saveData.pieces || !saveData.gridSize) {
+        this.showToast('Dữ liệu lưu không hợp lệ!', 'error');
+        return;
+      }
+
+      // Restore config
+      this.gridSize = saveData.gridSize;
+      this.rotationEnabled = saveData.rotationEnabled;
+      this.ghostEnabled = saveData.ghostEnabled;
+
+      // Update UI controls to match
+      this.dom.difficultyButtons.forEach((b) => {
+        b.classList.toggle('active', parseInt(b.getAttribute('data-grid'), 10) === this.gridSize);
+      });
+      this.dom.toggleGhostBtn.classList.toggle('active', this.ghostEnabled);
+      this.dom.ghostCanvas.classList.toggle('hidden', !this.ghostEnabled);
+      if (this.dom.toggleRotationBtn) {
+        this.dom.toggleRotationBtn.classList.toggle('active', this.rotationEnabled);
+      }
+
+      // Update image pill selection
+      this.currentImageSrc = saveData.currentImageSrc;
+      let foundPill = false;
+      this.dom.imagePills.forEach((pill) => {
+        const match = pill.getAttribute('data-src') === this.currentImageSrc;
+        pill.classList.toggle('active', match);
+        if (match) foundPill = true;
+      });
+      if (!foundPill) {
+        this.dom.imagePills.forEach((p) => p.classList.remove('active'));
+      }
+
+      // Load the image, then restore pieces
+      const img = new Image();
+      img.onload = () => {
+        this.sourceImage = img;
+        this.dom.miniPreviewImg.src = this.currentImageSrc;
+        this.dom.modalPreviewImg.src = this.currentImageSrc;
+        this.restoreGameFromSave(saveData);
+      };
+      img.onerror = () => {
+        this.showToast('Không thể tải ảnh đã lưu!', 'error');
+      };
+      img.src = this.currentImageSrc;
+    }
+
+    restoreGameFromSave(saveData) {
+      this.stopTimer();
+
+      this.secondsElapsed = saveData.secondsElapsed;
+      this.movesCount = saveData.movesCount;
+      this.snappedCount = 0;
+      this.totalPieces = saveData.totalPieces;
+
+      this.dom.trayPiecesArea.innerHTML = '';
+      this.dom.boardPiecesLayer.innerHTML = '';
+      this.pieces = [];
+
+      this.updateBoardDimensions();
+      this.renderGhostAndGrid();
+
+      const snappedCtx = this.dom.snappedCanvas.getContext('2d');
+      snappedCtx.clearRect(0, 0, this.dom.snappedCanvas.width, this.dom.snappedCanvas.height);
+
+      for (const ps of saveData.pieces) {
+        const piece = {
+          id: ps.id,
+          row: ps.row,
+          col: ps.col,
+          isEdge: ps.isEdge,
+          edges: ps.edges,
+          isSnapped: false,
+          rotation: ps.rotation,
+          targetX: ps.col * this.pieceWidth,
+          targetY: ps.row * this.pieceHeight,
+          x: 0,
+          y: 0,
+          element: null,
+          canvas: null
+        };
+
+        this.renderPieceElement(piece);
+        this.pieces.push(piece);
+
+        if (ps.isSnapped) {
+          piece.rotation = 0;
+          piece.canvas.style.transform = 'rotate(0deg)';
+          this.snappedCount++;
+          piece.isSnapped = true;
+          if (piece.element.parentNode) {
+            piece.element.parentNode.removeChild(piece.element);
+          }
+          snappedCtx.drawImage(
+            piece.canvas,
+            piece.targetX - this.padding,
+            piece.targetY - this.padding
+          );
+        } else if (ps.location === 'board') {
+          this.dom.boardPiecesLayer.appendChild(piece.element);
+          piece.element.style.position = 'absolute';
+          piece.element.style.left = ps.posLeft;
+          piece.element.style.top = ps.posTop;
+        } else {
+          this.dom.trayPiecesArea.appendChild(piece.element);
+          piece.element.style.position = 'absolute';
+          piece.element.style.left = ps.posLeft;
+          piece.element.style.top = ps.posTop;
+        }
+      }
+
+      this.updateStats();
+      this.startTimer();
+      this.isGameActive = true;
+
+      const savedDate = new Date(saveData.timestamp);
+      const timeStr = savedDate.toLocaleString('vi-VN');
+      this.showToast(`Đã tải game! (${this.snappedCount}/${this.totalPieces} mảnh — lưu lúc ${timeStr})`, 'success', 4000);
+    }
   }
 
   // Initialize Game on DOM ready
   window.addEventListener('DOMContentLoaded', () => {
     window.jigsawGame = new JigsawGame();
+  });
+
+  // Auto-save on page unload (if game is active)
+  window.addEventListener('beforeunload', () => {
+    if (window.jigsawGame && window.jigsawGame.isGameActive && window.jigsawGame.snappedCount < window.jigsawGame.totalPieces) {
+      window.jigsawGame.saveGame();
+    }
   });
 })();
